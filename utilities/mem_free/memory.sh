@@ -6,3 +6,4 @@ if [ "$SIZE" = "" ]; then
 SIZE=1
 fi
 ./memory $SIZE
+#fuhu

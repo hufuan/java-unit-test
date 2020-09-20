@@ -25,6 +25,8 @@ class ACE_Time_Value
 {
     public:
     ACE_Time_Value (time_t sec, suseconds_t usec = 0);
+    ACE_Time_Value();
+    ACE_Time_Value(const ACE_Time_Value& other);
     void sec (time_t sec);
     time_t sec ();
     void usec (suseconds_t sec);
@@ -38,7 +40,22 @@ ACE_Time_Value::ACE_Time_Value(time_t sec, suseconds_t usec)
 {
     tv_.tv_sec = sec;
     tv_.tv_usec = usec;
+    printf("ACE_Time_Value::ACE_Time_Value(time_t sec, suseconds_t usec) construct\n");
 }
+
+ACE_Time_Value::ACE_Time_Value()
+{
+    tv_.tv_sec = 0;
+    tv_.tv_usec = 0;
+    printf("ACE_Time_Value::ACE_Time_Value() construct\n");
+}
+ACE_Time_Value::ACE_Time_Value(const ACE_Time_Value& other)
+{
+    tv_.tv_sec = other.tv_.tv_sec;
+    tv_.tv_usec = other.tv_.tv_usec;
+    printf("ACE_Time_Value::ACE_Time_Value(const ACE_Time_Value& other) construct\n");
+}
+
 
 inline ACE_Time_Value::operator timespec_t () const
 {
@@ -47,6 +64,7 @@ inline ACE_Time_Value::operator timespec_t () const
   tv.tv_sec = this->tv_.tv_sec;
   // Convert microseconds into nanoseconds.
   tv.tv_nsec = this->tv_.tv_usec * 1000;
+  printf("call timespec_t() operator\n");
   return tv;
 }
 void ACE_Time_Value::sec (time_t sec)
@@ -108,6 +126,13 @@ suseconds_t ACE_Time_Value::usec ()
       nsec = atoi(argv[1]);
       ticks = atoi(argv[2]);
     }
+    #if 1
+    ACE_Time_Value instant(2, 1); // 1us
+    timespec_t rqtp = instant;
+    printf("begin to sleep\n");
+    nanosleep (&rqtp, 0);
+    printf("end to sleep\n");
+    #else
     printf("nano sec is %d,  ticks are %d\n", nsec, ticks);
     struct timeval tv1, tv2;
     printf("#1: size of struct timeval (tv_sec)= %d, size of (tv_usec) = %d\n", 
@@ -138,4 +163,5 @@ suseconds_t ACE_Time_Value::usec ()
     double res = gettimeofday(&tv2, NULL);
     res = difftimeval(&tv1, &tv2);
     printf("Accumulate sleep time: %.3lf (s)\n",  res);
+    #endif
  }

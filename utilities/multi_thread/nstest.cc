@@ -17,14 +17,6 @@ using namespace std;
 
  int stats[NUM_THREADS] = {0};
 
- /*
- int nsec =100*1000000; // 300s
- int freq = 3000;  //  
-
- int nsec =1000; //30 s
- int freq = 30000;  
- 
- */
  int nsec =10*1000*1000; //300 s
  int freq = 30000;  
  // int freq = 50; //used in debug mode

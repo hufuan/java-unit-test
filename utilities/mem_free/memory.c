@@ -17,6 +17,7 @@ int parseLine(char* line){
     line[i-3] = '\0';
     i = atoi(p);
     return i;
+    
 }
 int getRAMUsage(){ //Note: this value is in KB!
     FILE* file = fopen("/proc/self/status", "r");

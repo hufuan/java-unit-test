@@ -1,43 +1,41 @@
 package com.mycompany.fuhu.java;
-import java.util.ArrayList;
-import java.util.List;
-class Solution {
-    public int canCompleteCircuit(int[] gas, int[] cost) {
-        if (gas == null || cost == null || gas.length == 0|| cost.length ==0 || gas.length != cost.length)
-        {
-            return -1;
-        }
-        int total_try = gas.length;
-        int num = gas.length;
-        for (int i = 0; i < total_try; i++)
-        {
-            int cur_gas = 0;
-            int j = 0;
-            for (j = 0; j < num; j++)
-            {
-                int node_idx = (i + j) % num;
-                int next_gas = cur_gas + gas[node_idx] - cost[node_idx];
-                if (next_gas < 0)
-                {
-                    break;
-                }
-                cur_gas = cur_gas + gas[node_idx] - cost[node_idx];
-            }
-            if (j == num)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Solution {
+    public int romanToInt(String s) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("I", 1);
+        map.put("IV", 4);
+        map.put("V", 5);
+        map.put("IX", 9);
+        map.put("X", 10);
+        map.put("XL", 40);
+        map.put("L", 50);
+        map.put("XC", 90);
+        map.put("C", 100);
+        map.put("CD", 400);
+        map.put("D", 500);
+        map.put("CM", 900);
+        map.put("M", 1000);
+        int res = 0;
+        for (int i = 0; i < s.length();i++) {
+            if (i+1 < s.length() && map.containsKey(s.substring(i, i+2))) {
+                res += map.get(s.substring(i, i+2));
+                i+=2;
+            } else {
+                res += map.get(s.substring(i,i+1));
+                i++;
+            }
+        }
+        return res;
+    }
     public static void main(String argv[])
     {
         Solution sol = new Solution();
-        int[] gas = {2,3,4};
-        int[] cost = {3,4,3};
-        int res = sol.canCompleteCircuit(gas, cost);
-        System.out.println("result is: " + res);
     }
 }
 /*

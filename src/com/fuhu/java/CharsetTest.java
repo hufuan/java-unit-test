@@ -1,4 +1,4 @@
-package com.mycompany.fuhu.java;
+package com.fuhu.java;
 
 import java.nio.charset.Charset;
 

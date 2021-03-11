@@ -1,4 +1,4 @@
-package com.mycompany.fuhu.callback;
+package com.fuhu.callback;
 
 import java.util.ArrayList;
 import java.util.List;

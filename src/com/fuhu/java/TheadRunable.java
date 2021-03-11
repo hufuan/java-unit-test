@@ -1,4 +1,4 @@
-package com.mycompany.fuhu.java;
+package com.fuhu.java;
 class Worker implements Runnable
 {
     @Override

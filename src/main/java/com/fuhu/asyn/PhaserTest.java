@@ -15,6 +15,7 @@ public class PhaserTest {
         //主线程先注册一个
         //对应下文中，主线程可以等待所有的parties到达后再解除阻塞（类似与CountDownLatch）
         phaser.register();
+        //phaser.register();
         ExecutorService executor = Executors.newFixedThreadPool(parties);
         for(int i = 0; i < parties; i++) {
             phaser.register();//每创建一个task，我们就注册一个party

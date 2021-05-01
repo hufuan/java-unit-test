@@ -2,8 +2,11 @@ package com.fuhu.algo.sorting;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-public class Bulble {
+/*
+思路：外层循环控制趟数，共n-1趟，
+内循环控制比较次数出现逆序就交换，通过与相邻元素的比较和交换来把小的数交换到最前面。
+ */
+public class BulbleSorting {
     public void sort(int[] array) {
         int length = array.length;
         //外层循环控制排序趟数
@@ -21,7 +24,7 @@ public class Bulble {
     }
     public static void main(String argv[]) {
         int[] testArray = new int[] {2,10,9,5,4,50,999,200,7,103};
-        Bulble bulble = new Bulble();
+        BulbleSorting bulble = new BulbleSorting();
         bulble.sort(testArray);
         String output = Arrays.stream(testArray).boxed().map(val-> { return val+"";})
                 .collect(Collectors.joining(",","[", "]"));

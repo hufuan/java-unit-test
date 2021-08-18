@@ -1,1 +1,0 @@
-gcc nstest.cc -lpthread -lrt -lstdc++

@@ -1,8 +1,7 @@
 package com.fuhu.leetcode;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class ShortestBridgeSolution {
     enum MoveDirection {
@@ -98,7 +97,7 @@ public class ShortestBridgeSolution {
     }
 
     public static void main(String[] args) {
-        Solution sol = new Solution();
+        ShortestBridgeSolution sol = new ShortestBridgeSolution();
         int[][] input = {{0,1,1},{0,0,0},{0,0,1}};
         int res = sol.shortestBridge(input);
         System.out.println("res = " + res);

@@ -1,33 +1,123 @@
 package com.fuhu.leetcode;
 
-import java.util.Arrays;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 public class Solution {
-    public boolean isToeplitzMatrix(int[][] matrix) {
-        int m = matrix.length;
-        int n = matrix[0].length;
-        for (int i = 1; i < m ; i++) {
-            for (int j = 1; j < n; j++) {
-                if (matrix[i][j] != matrix[i-1][j-1]) {
-                    return false;
+    enum MoveDirection {
+        LEFT(-1,0), RIGHT(1, 0), UP(0, 1), DOWN(0, -1);
+        private int moveX;
+        private int moveY;
+        private MoveDirection(int x, int y){
+            moveX = x;
+            moveY = y;
+        }
+        public int getMoveX() {
+            return moveX;
+        }
+
+        public int getMoveY() {
+            return moveY;
+        }
+    }
+
+    class Point {
+        int x;
+        int y;
+        int xMax;
+        int yMax;
+        public Point(int x, int y, int[][] A){
+            this.x = x;
+            this.y = y;
+            this.xMax = A.length;
+            this.yMax = A[0].length;
+        }
+        boolean canMove(MoveDirection dir){
+            int nx = x + dir.getMoveX();
+            int ny = y + dir.getMoveY();
+            if(nx < 0 || nx >= xMax || ny < 0 || ny>= yMax)
+                return false;
+            return true;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+    }
+    public int shortestBridge(int[][] A) {
+        int [][] direction = new int [][]{{1,0},{-1,0},{0,1},{0,-1}};
+        Deque<Point> queue = new ArrayDeque<>();
+        int ans = -1;
+        boolean [][] visited = new boolean[A.length][A[0].length];
+        boolean flag = true;
+        for(int i=0;i<A.length&&flag;i++){
+            for(int j=0;j<A[0].length;j++) {
+                if (A[i][j] == 1) {
+                    dfs(  A, new Point(i, j, A), queue, visited);
+                    flag = false;
+                    break;
                 }
             }
         }
-        return true;
+        System.out.println("queue.size = " + queue.size());
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            ans++;
+            System.out.println("ans = " + ans + " queue.size: " + size);
+            for(int i=0;i<size;i++){
+                Point node = queue.poll();
+                System.out.println("pull node: x: " + node.getX()+ " ny: " + node.getY());
+                for (MoveDirection dir : MoveDirection.values()){
+                    int nx = node.x + dir.getMoveX();
+                    int ny = node.y + dir.getMoveY();
+                    if (!node.canMove((dir)) || visited[nx][ny])
+                        continue;
+                    if(A[nx][ny]==1)    return ans;
+                    visited[nx][ny] = true;
+                    queue.add(new Point(nx,ny, A));
+                    System.out.println("add node: x: " + nx + " ny: " + ny);
+                }
+            }
+        }
+        return ans;
+    }
+    private void dfs(int [][]A,Point point,Deque queue,boolean[][]visited){
+        int x = point.getX();
+        int y = point.getY();
+        if ( visited[x][y] || A[x][y]!=1 )
+            return;
+        visited[x][y] = true;
+        queue.add(point);
+        for (MoveDirection dir : MoveDirection.values()){
+            if (point.canMove((dir))){
+                dfs(A, new Point(x + dir.getMoveX(), y + dir.getMoveY(), A), queue, visited);
+            }
+        }
     }
 
     public static void main(String[] args) {
         Solution sol = new Solution();
-        String str = null;
-        int[][] matrix = {{1,2,3,4},{5,1,2,3},{9,5,1,2}};
-        int[] arr = {1,2,3,4};
+        int[][] input = {{0,1,1},{0,0,0},{0,0,1}};
+        int res = sol.shortestBridge(input);
+        //String str = Arrays.stream(res).boxed().map(val -> {return val + "";}).collect(Collectors.joining(",", "[", "]"));
+        //sol.reSort(words);
+        //String output = Arrays.stream(words).collect(Collectors.joining(",", "[", "]"));
+        //System.out.println("words: " + output);
         //String combined = Arrays.stream(arr).boxed().map(val -> { return val + "";}).collect(Collectors.joining(",", "[", "]"));
-        Arrays.stream(matrix).forEach(currArray ->{
+        /*Arrays.stream(matrix).forEach(currArray ->{
             String line = Arrays.stream(currArray).boxed().map(val -> { return val + "";})
                     .collect(Collectors.joining(",", "[", "]"));
             System.out.println(line);
-        });
+        });*/
+        //String str = res.stream().map(val -> val + "").collect(Collectors.joining(",", "[", "]"));
+        System.out.println("res = " + res);
+
         return;
     }
 }
